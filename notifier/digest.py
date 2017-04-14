@@ -3,7 +3,9 @@ General formatting and rendering helpers for digest notifications.
 """
 
 from contextlib import contextmanager
+import json
 import logging
+import requests
 import struct
 
 from django.conf import settings
@@ -121,7 +123,12 @@ def _get_course_title(course_id):
     '6.002x MITx'
     """
     course_key = CourseKey.from_string(course_id)
-    return '{0.course} {0.org}'.format(course_key)
+
+    api_url = settings.LMS_URL_BASE + "api/courses/v1/courses/{0}/".format(course_key)
+    response = requests.get(api_url)
+    course_title = json.loads(response.content)['name']
+
+    return course_title
 
 
 def _get_course_url(course_id):
