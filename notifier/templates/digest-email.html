@@ -57,11 +57,7 @@
             <table class="email-header" cellpadding="0" cellspacing="0" border="0">
                 <tbody>
                     <tr>
-                        <td class="edx-logo" valign="middle">
-                            <!-- TODO: is this the proper logo image? -->
-                            <img src="{{ logo_image_url }}" alt="Logo" border="0" hspace="0" vspace="0" style="vertical-align:top;" class="logo">
-                        </td>
-                        <td valign="top" style="padding-left: 20px">
+                        <td valign="top">
                             <p style="margin: 0; color: #5597DD">{{ title }}</p>
                             <p style="margin: 0; font-size: 12px; color: #777777">{{ description }}</p>
                         </td>
@@ -71,7 +67,7 @@
             <br>
             {% blocktrans with name=user.name %}Hi {{name}},{% endblocktrans %}
             <br><br>
-            {% blocktrans count thread_count=thread_count %}You have {{thread_count}} discussion thread with updates in {{course_names}}. The most recent highlights are shown below. As a reminder, you can turn off all discussion digests from any course's Discussion Home page.{% plural %}You have {{thread_count}} discussion threads with updates in {{course_names}}. The most recent highlights are shown below. As a reminder, you can turn off all discussion digests from any course's Discussion Home page.{% endblocktrans %}
+            {% blocktrans count thread_count=thread_count %}You have {{thread_count}} discussion thread with updates in an HMX course. The most recent update is shown below. As a reminder, you can turn off these email updates at any time from the course "Discussion" page.{% plural %}You have {{thread_count}} discussion threads with updates in an HMX course. The most recent update is shown below. As a reminder, you can turn off these email updates at any time from the course "Discussion" page.{% endblocktrans %}
             <br><br>
             {% for course in digest.courses %}
             <table class="course-table" cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom: 30px;">
@@ -81,7 +77,7 @@
                             <div style="font-size: 16px; line-height: 24px;">
                                 {{ course.title }}
                             </div>
-                        </td>   
+                        </td>
                     </tr>
                     {% for thread in course.threads %}
                         <tr>
@@ -115,9 +111,6 @@
             </table>
             {% endfor %}
             <br><br>
-            <div class="unsubscribe-tools" style="border-radius:3px; padding:10px; background-color:#eeeeee; font-size:12px;">
-              {% blocktrans with a_attrs='href="'|add:unsubscribe_url|add:'" class="unsubscribe-link"'|safe %}If you would like to stop receiving these updates, you can turn off all Course Discussion digests from any course's Discussion Home page. You can also <a {{a_attrs}}>quickly turn off these notifications from this email.</a>{% endblocktrans %}
-            </div>
             {% if postal_address %}
             <div class="postal-address" style="font-size: 10px; margin-top: 10px; text-align:center; color: #777777;">
               {{postal_address}}
@@ -137,4 +130,3 @@
 <br>
 </body>
 </html>
-
