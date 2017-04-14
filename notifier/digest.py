@@ -124,7 +124,7 @@ def _get_course_title(course_id):
     """
     course_key = CourseKey.from_string(course_id)
 
-    api_url = settings.LMS_URL_BASE + "api/courses/v1/courses/{0}/".format(course_key)
+    api_url = settings.LMS_URL_BASE + "/api/courses/v1/courses/{0}/".format(course_key)
     response = requests.get(api_url)
     course_title = json.loads(response.content)['name']
 
