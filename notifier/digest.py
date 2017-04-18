@@ -3,7 +3,9 @@ General formatting and rendering helpers for digest notifications.
 """
 
 from contextlib import contextmanager
+import json
 import logging
+import requests
 import struct
 
 from django.conf import settings
@@ -110,6 +112,20 @@ def _make_text_list(values):
         )
 
 
+def _get_course_name(course_id):
+    course_key = CourseKey.from_string(course_id)
+
+    api_url = settings.LMS_URL_BASE + "/api/courses/v1/courses/{}/".format(course_key)
+
+    response = requests.get(api_url)
+    if response.status_code == requests.codes.ok:
+        course_name = json.loads(response.content)['name']
+    else:
+        return "Course visibility is set to 'None'."
+
+    return course_name
+
+
 def _get_course_title(course_id):
     """
     Formatting helper.
@@ -183,6 +199,7 @@ class Digest(object):
 class DigestCourse(object):
     def __init__(self, course_id, threads):
         self.course_id = course_id
+        self.name = _get_course_name(course_id)
         self.title = _get_course_title(course_id)
         self.url = _get_course_url(course_id)
         self.thread_count = len(threads) # not the same as len(self.threads), see below
